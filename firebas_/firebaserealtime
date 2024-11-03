@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        height: 100vh;
+        background: #f4f4f4;
+      }
+      form {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 25%;
+        box-sizing: border-box;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      label {
+        margin-bottom: 10px;
+        display: block;
+        color: #666;
+      }
+
+      input[type="text"],
+      input[type="email"] {
+        width: 90%;
+        padding: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 4px;
+        color: white;
+        background-color: #5c67f2;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      input[type="submit"]:hover {
+        background-color: #4a54e1;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="createUserForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="Enter email" required />
+      <label for="password">Password:</label>
+      <input type="text" id="password" placeholder="Enter password" required />
+      <button type="submit">Sign Up</button>
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </form>
+  </body>
+</html>
+
+<script>
+  document.getElementById("createUserForm").addEventListener("submit", signUp);
+
+  function signUp() {
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const API_KEY = "AIzaSyCqvMeLentzsbWgb-xzDB3gIewmrlzOyi0";
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      }),
+    };
+
+    fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+      requestOptions
+    )
+      .then((resp) => resp.json())
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
+  }
+</script>
